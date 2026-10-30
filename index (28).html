@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="theme-color" content="#2a0c2e">
+<title>Lâu đài bí ngô hồng ôn luyện Flyers cùng Dâu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#2a0c2e; --night2:#43154a;
+    --pump:#ff5fa8; --pump-deep:#c2185b; --pump-soft:#ffe0ef;
+    --witch:#1f8a5f; --witch-soft:#d9f5e6;
+    --gold:#ffcf5c; --gold-soft:#fff0c4;
+    --violet-soft:#f6e1f8; --violet:#7a3a9c;
+    --card:#fffafc; --ink:#35123a; --ink-soft:#6d4a73; --bad:#a8123f;
+    --shadow:0 8px 22px rgba(30,4,28,0.4);
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:
+      radial-gradient(circle at 88% 4%, rgba(255,160,210,0.25), transparent 18%),
+      radial-gradient(circle at 8% 26%, rgba(255,79,163,0.2), transparent 42%),
+      linear-gradient(180deg, var(--night), var(--night2) 55%, var(--night));
+    color:var(--ink);
+    font-family:'Quicksand','Noto Sans',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{ font-family:'Baloo 2','Quicksand',sans-serif; margin:0; color:var(--pump-deep); }
+  p{ margin:0; }
+  button, input{ font-family:inherit; }
+  ::selection{ background:var(--gold); color:var(--night); }
+  *:focus-visible{ outline:3px solid var(--gold); outline-offset:2px; border-radius:6px; }
+
+  .seed-counter{
+    position:fixed; top:12px; right:12px; z-index:60;
+    background:var(--night); border:2px solid var(--pump); color:#ffe3f1;
+    border-radius:999px; padding:8px 16px 8px 12px;
+    display:flex; align-items:center; gap:6px;
+    font-weight:700; font-size:14px; box-shadow:var(--shadow);
+  }
+  .seed-counter .berry{ font-size:18px; }
+  .seed-counter.pop{ animation:seedPop .4s ease; }
+  @keyframes seedPop{ 0%{transform:scale(1);} 45%{transform:scale(1.3) rotate(-6deg);} 100%{transform:scale(1);} }
+  .timer-badge{
+    position:fixed; top:12px; left:12px; z-index:60;
+    background:var(--night); border:2px solid var(--violet); color:#efe4ff;
+    border-radius:999px; padding:8px 16px; font-weight:700; font-size:14px; box-shadow:var(--shadow);
+  }
+
+  .hero{ text-align:center; padding:58px 20px 30px; position:relative; overflow:hidden; color:#fff; }
+  .moon{
+    position:absolute; top:34px; left:50%; width:150px; height:150px; margin-left:-75px; border-radius:50%;
+    background:radial-gradient(circle at 36% 34%, #fff0f7, #ffb3d9 62%, #ff7fbf);
+    box-shadow:0 0 70px 24px rgba(255,120,190,0.4); opacity:0.9;
+  }
+  .hero-berries{ position:absolute; inset:0; pointer-events:none; font-size:28px; }
+  .hero-berries span{ position:absolute; animation:floaty 5s ease-in-out infinite; }
+  .hero-berries span:nth-child(1){ top:18px; left:8%; }
+  .hero-berries span:nth-child(2){ top:70px; right:9%; animation-delay:1.2s; }
+  .hero-berries span:nth-child(3){ bottom:12px; left:18%; animation-delay:2.1s; }
+  .hero-berries span:nth-child(4){ bottom:20px; right:20%; animation-delay:.6s; }
+  .hero-berries span:nth-child(5){ top:120px; left:22%; animation-delay:1.7s; }
+  @keyframes floaty{ 0%,100%{ transform:translateY(0) rotate(0deg); } 50%{ transform:translateY(-12px) rotate(8deg); } }
+  .hero h1{
+    font-size:clamp(28px,5vw,44px); font-weight:800; color:#ff9ccf; position:relative;
+    text-shadow:0 3px 0 #7a1250, 0 0 24px rgba(255,79,163,0.55);
+  }
+  .hero p{ margin:12px auto 0; font-size:clamp(15px,2.4vw,18px); color:#f1e4ff; max-width:520px; position:relative; }
+  .progress-wrap{ max-width:360px; margin:18px auto 0; position:relative; }
+  .progress-track{ background:var(--night); border:2px solid var(--pump); border-radius:999px; height:16px; overflow:hidden; }
+  .progress-fill{ height:100%; border-radius:999px; background:linear-gradient(90deg,var(--gold),var(--pump)); width:0%; transition:width .5s ease; }
+  .progress-label{ text-align:center; font-size:12.5px; color:#ffc2e0; margin-top:7px; font-weight:700; }
+
+  .path-nav{
+    position:sticky; top:0; z-index:40; background:rgba(42,12,46,0.94); backdrop-filter:blur(6px);
+    border-bottom:2px dotted var(--pump); padding:10px 12px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;
+  }
+  .path-nav a{
+    display:flex; align-items:center; gap:6px; text-decoration:none; background:var(--night2);
+    border:2px solid var(--violet); border-radius:999px; padding:6px 13px;
+    font-weight:700; font-size:13.5px; color:#ffe3f1; white-space:nowrap; transition:transform .15s ease, background .15s ease;
+  }
+  .path-nav a:hover{ transform:translateY(-2px); background:#5a1d63; }
+  .path-nav a .cnt{ font-weight:600; color:#d9c6f5; font-size:12px; }
+  .path-nav a.done{ background:var(--witch-soft); border-color:var(--witch); color:var(--witch); }
+  .path-nav a.done .cnt{ color:var(--witch); }
+  .path-nav a.bounce{ animation:pillBounce .5s ease; }
+  @keyframes pillBounce{ 0%{transform:scale(1);} 40%{transform:scale(1.22) rotate(-4deg);} 70%{transform:scale(.96) rotate(3deg);} 100%{transform:scale(1) rotate(0);} }
+
+  .container{ max-width:800px; margin:0 auto; padding:26px 16px 60px; }
+  .patch{ background:var(--tint,var(--violet-soft)); border-radius:28px; padding:26px 20px 30px; margin-bottom:34px; box-shadow:var(--shadow); border:3px dashed rgba(194,24,91,0.35); position:relative; }
+  .patch::after{ content:"🕸️"; position:absolute; top:-16px; right:16px; font-size:26px; }
+  .hero::before{ content:"🕸️"; position:absolute; top:6px; left:8px; font-size:54px; opacity:.55; }
+  .patch-head{ display:flex; align-items:center; gap:12px; margin-bottom:6px; }
+  .patch-icon{ flex:0 0 auto; width:46px; height:46px; border-radius:50%; background:var(--night); display:flex; align-items:center; justify-content:center; font-size:22px; }
+  .patch-head h2{ font-size:22px; }
+  .patch-tip{ font-size:14px; color:var(--ink-soft); margin:8px 0 20px; background:rgba(255,255,255,0.65); border-radius:14px; padding:10px 14px; }
+
+  /* vocabulary */
+  .vgroup{ margin-bottom:18px; }
+  .vgroup h3{ font-size:17px; margin-bottom:8px; }
+  .vgrid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:8px; }
+  .vcard{ background:var(--card); border-radius:14px; padding:9px 12px; display:flex; align-items:center; gap:10px; border-left:5px solid var(--pump); }
+  .vcard .vw{ font-weight:700; font-size:15.5px; color:var(--ink); }
+  .vcard .vp{ font-family:'Noto Sans','Segoe UI','DejaVu Sans',sans-serif; font-size:13px; color:var(--violet); }
+  .vcard .vm{ font-size:13.5px; color:var(--ink-soft); }
+  .vsay{ flex:0 0 auto; border:none; background:var(--gold-soft); border-radius:50%; width:34px; height:34px; cursor:pointer; font-size:15px; }
+  .vsay:hover{ background:var(--gold); }
+
+  /* theory */
+  details.th{ background:var(--card); border-radius:20px; margin-bottom:14px; box-shadow:0 4px 14px rgba(40,20,70,0.12); overflow:hidden; }
+  details.th > summary{ cursor:pointer; padding:14px 18px; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:19px; color:var(--pump-deep); list-style:none; }
+  details.th > summary::-webkit-details-marker{ display:none; }
+  details.th > summary::after{ content:"▾"; float:right; color:var(--violet); }
+  details.th[open] > summary::after{ content:"▴"; }
+  .thb{ padding:2px 18px 18px; font-size:15px; }
+  .thb h4{ font-size:16.5px; margin:16px 0 6px; color:var(--violet); }
+  .thb p{ margin:6px 0; }
+  .thb ul{ margin:6px 0; padding-left:20px; }
+  .thb li{ margin:4px 0; }
+  .thb b.en, .en{ color:var(--pump-deep); font-weight:700; }
+  .tw{ overflow-x:auto; margin:8px 0; }
+  .thb table{ border-collapse:collapse; width:100%; font-size:14.5px; background:#fff; border-radius:12px; overflow:hidden; }
+  .thb th{ background:var(--night2); color:#ffe3f1; padding:7px 10px; text-align:left; font-weight:700; }
+  .thb td{ padding:7px 10px; border-top:1px solid #eadff7; vertical-align:top; }
+  .tipbox, .bad, .good{ border-radius:12px; padding:9px 13px; margin:8px 0; font-size:14.5px; }
+  .tipbox{ background:var(--gold-soft); border-left:5px solid var(--gold); }
+  .bad{ background:#fde0ea; color:var(--bad); border-left:5px solid var(--bad); }
+  .good{ background:var(--witch-soft); color:var(--witch); border-left:5px solid var(--witch); }
+  .exbox{ background:var(--violet-soft); border-radius:12px; padding:9px 13px; margin:8px 0; }
+  .vi{ color:var(--ink-soft); font-size:13.5px; }
+  .chips2{ display:flex; flex-wrap:wrap; gap:6px; margin:6px 0; }
+  .chips2 span{ background:var(--pump-soft); border-radius:999px; padding:4px 11px; font-weight:700; font-size:13.5px; color:var(--pump-deep); }
+  .clock{ display:block; width:210px; max-width:100%; margin:8px auto; }
+
+  /* questions */
+  .q-card{ background:var(--card); border-radius:20px 20px 20px 6px; padding:16px 18px; margin-bottom:12px; border-left:6px solid var(--pump); box-shadow:0 4px 14px rgba(40,20,70,0.14); }
+  .q-card.solved{ border-left-color:var(--witch); }
+  .q-card.locked{ opacity:0.88; }
+  .q-head{ display:flex; gap:10px; align-items:flex-start; margin-bottom:10px; }
+  .q-badge{ flex:0 0 auto; min-width:28px; height:28px; padding:0 7px; border-radius:999px; background:var(--pump-deep); color:#fff; font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+  .q-card.solved .q-badge{ background:var(--witch); }
+  .q-sentence{ font-size:15.5px; }
+  .q-controls{ display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+  .q-input{ padding:8px 11px; font-size:15px; border:2px solid #cdb8ea; border-radius:12px; background:#fbf7ff; color:var(--ink); }
+  .q-input:focus{ border-color:var(--pump); background:#fff; }
+  .q-input.inl{ display:inline-block; width:150px; margin:0 4px; padding:5px 9px; }
+  .q-input.long{ width:min(100%,430px); display:block; margin:6px 0; }
+  .q-input.wide{ flex:1 1 220px; min-width:160px; }
+  .btn{ border:none; border-radius:999px; padding:9px 16px; font-weight:700; font-size:14px; cursor:pointer; transition:transform .12s ease; }
+  .btn:active{ transform:scale(.95); }
+  .btn-check{ background:linear-gradient(135deg,var(--pump-deep),#8a0f4d); color:#fff; }
+  .btn-hint{ background:var(--gold-soft); color:#6e4707; }
+  .btn-clear{ background:#eee3fb; color:var(--violet); }
+  .q-feedback{ margin-top:8px; font-size:13.5px; font-weight:600; min-height:18px; }
+  .fb-ok{ color:var(--witch); } .fb-close{ color:#8a5a00; } .fb-warn{ color:var(--bad); } .fb-hint{ color:#6e4707; }
+  .shake{ animation:wiggle .4s ease; }
+  @keyframes wiggle{ 0%,100%{transform:translateX(0);} 20%{transform:translateX(-6px);} 40%{transform:translateX(6px);} 60%{transform:translateX(-4px);} 80%{transform:translateX(4px);} }
+
+  .wordbank{ display:flex; flex-wrap:wrap; gap:8px; background:var(--card); border-radius:18px; padding:14px; margin-bottom:18px; }
+  .wb-chip{ background:var(--pump-soft); border:none; border-radius:999px; padding:6px 13px; font-weight:700; font-size:13.5px; color:var(--pump-deep); cursor:pointer; transition:transform .12s ease; }
+  .wb-chip:hover{ transform:translateY(-2px); }
+  .anslist{ flex-direction:column; gap:6px; font-size:14.5px; }
+  .anslist p b{ color:var(--pump-deep); }
+
+  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; margin:8px 0; }
+  .chip{ border:none; border-radius:999px; padding:8px 15px; font-weight:700; font-size:14px; cursor:pointer; background:var(--violet-soft); color:var(--violet); transition:transform .12s ease; text-align:left; }
+  .chip:hover{ transform:translateY(-2px); }
+  .chip-correct{ background:var(--witch-soft); color:var(--witch); }
+  .chip:disabled:not(.chip-correct){ text-decoration:line-through; }
+  .chip-wrong-flash{ animation:wiggle .4s ease; }
+
+  .bub{ border-radius:16px; padding:8px 13px; margin:6px 0; font-size:15px; max-width:92%; }
+  .bub.m{ background:var(--violet-soft); }
+  .bub.s{ background:var(--pump-soft); margin-left:auto; }
+  .blankline{ display:inline-block; min-width:80px; border-bottom:2px dashed var(--pump-deep); }
+
+  .token-row{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:4px; }
+  .token{ border:none; background:var(--pump-soft); color:#8a0f4d; border-radius:10px; padding:6px 9px; font-size:15px; font-weight:600; cursor:pointer; transition:transform .12s ease; }
+  .token:hover{ transform:translateY(-2px); }
+  .token.used{ background:#e6e0ee; }
+  .token-selected{ background:var(--witch-soft); color:var(--witch); }
+  .token-select-wrong{ animation:wiggle .4s ease; }
+  .step2{ margin-top:10px; display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .step-label{ font-size:13px; color:var(--ink-soft); font-weight:700; flex-basis:100%; }
+
+  .passage{ background:var(--card); border-radius:20px; padding:18px 20px; margin-bottom:12px; border-left:6px solid var(--pump); font-size:16px; line-height:2.2; box-shadow:0 4px 14px rgba(40,20,70,0.14); }
+  .passage p{ margin-bottom:8px; }
+  .pg{ display:inline-flex; align-items:center; gap:3px; margin:0 3px; vertical-align:middle; line-height:1; }
+  .pgn{ background:var(--pump-deep); color:#fff; border-radius:999px; font-size:12px; padding:3px 7px; }
+  .pg.solved .pgn{ background:var(--witch); }
+  .pgi{ width:112px; padding:5px 8px; font-size:15px; }
+  .mini{ border:none; background:var(--gold-soft); color:#6e4707; width:28px; height:28px; border-radius:50%; font-weight:700; cursor:pointer; }
+  .pg.shake{ animation:wiggle .4s ease; }
+
+  .confetti-piece{ position:fixed; font-size:20px; pointer-events:none; z-index:999; animation:confettiFly .9s ease-out forwards; }
+  @keyframes confettiFly{ 0%{ transform:translate(0,0) scale(.6) rotate(0deg); opacity:1; } 100%{ transform:translate(var(--dx),var(--dy)) scale(1.15) rotate(220deg); opacity:0; } }
+
+  .finale{ display:none; text-align:center; background:linear-gradient(160deg,var(--pump-soft),var(--gold-soft)); border-radius:34px; padding:38px 24px; margin-bottom:34px; }
+  .finale.show{ display:block; }
+  .finale h2{ font-size:26px; margin-bottom:10px; }
+  .finale p{ color:var(--ink-soft); margin-bottom:18px; }
+  .finale .basket{ display:inline-block; font-size:48px; animation:basketBounce 1.4s ease-in-out infinite; margin-bottom:6px; }
+  @keyframes basketBounce{ 0%,100%{ transform:translateY(0) rotate(-4deg); } 50%{ transform:translateY(-10px) rotate(4deg); } }
+
+  .reset-wrap{ text-align:center; padding:10px 0 40px; display:flex; flex-direction:column; align-items:center; gap:12px; }
+  .btn-reset{ background:var(--night2); color:#ffe3f1; border:2px solid var(--violet); border-radius:999px; padding:8px 18px; font-weight:700; font-size:13.5px; cursor:pointer; }
+  .btn-submit{ background:linear-gradient(135deg,var(--pump),var(--pump-deep)); color:#fff; border:none; border-radius:999px; padding:13px 30px; font-weight:800; font-size:15.5px; cursor:pointer; box-shadow:0 8px 18px rgba(255,79,163,0.35); }
+  .btn-submit:disabled{ opacity:.5; cursor:not-allowed; box-shadow:none; }
+  .submit-note{ font-size:13px; color:#d9c6f5; max-width:440px; text-align:center; }
+  input:disabled, button:disabled{ opacity:.55; cursor:not-allowed; }
+  .q-card.solved input:disabled, .pg.solved input:disabled{ opacity:1; background:var(--witch-soft); color:var(--witch); border-color:var(--witch); -webkit-text-fill-color:var(--witch); }
+  .q-card.solved .chip-correct:disabled{ opacity:1; }
+  .summary-box{ display:none; max-width:560px; margin:0 auto 28px; background:var(--card); border:2px solid var(--witch); border-radius:20px; padding:20px 22px; }
+  .summary-box.show{ display:block; }
+  .summary-box h3{ font-size:19px; margin-bottom:10px; }
+  .summary-box p{ font-size:14.5px; margin-bottom:6px; }
+  #emailStatus{ font-size:13px; margin-top:8px; font-weight:600; color:#ffc2e0; }
+
+  @media (max-width:480px){
+    .q-controls{ flex-direction:column; align-items:stretch; }
+    .q-input.inl{ width:130px; }
+    .bub{ max-width:100%; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .hero-berries span, .seed-counter.pop, .shake, .chip-wrong-flash, .token-select-wrong, .confetti-piece, .path-nav a.bounce, .finale .basket{ animation:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="seed-counter" id="seedCounter"><span class="berry">🎃</span><span id="seedCount">0</span>/100 quả bí ngô</div>
+<div class="timer-badge" id="timerBadge">⏱️ 00:00</div>
+
+<header class="hero">
+  <div class="moon" aria-hidden="true"></div>
+  <div class="hero-berries" aria-hidden="true"><span>🦇</span><span>🎀</span><span>🕸️</span><span>👻</span><span>🍬</span></div>
+  <h1>Lâu đài bí ngô hồng ôn luyện Flyers cùng Dâu 🎃</h1>
+  <p>Dâu ơi, đêm Halloween hồng đã đến rồi! Hãy coi đây như một bài kiểm tra thật: đọc thật kỹ phần từ vựng và ngữ pháp trước, tự suy nghĩ rồi mới bấm gợi ý, làm lần lượt từ đầu đến cuối rồi hãy nộp bài nhé.</p>
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="progressFill" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div></div>
+    <p class="progress-label" id="progressLabel">0/100 quả bí ngô đã hái</p>
+  </div>
+</header>
+
+<nav class="path-nav" id="pathNav">
+  <a href="#vocab">📚 Từ vựng</a>
+  <a href="#theory">📖 Ngữ pháp</a>
+</nav>
+
+<main class="container">
+
+  <section class="patch" id="vocab" style="--tint:var(--gold-soft)">
+    <div class="patch-head"><span class="patch-icon">📚</span><h2>Từ vựng khó cần nhớ</h2></div>
+    <p class="patch-tip">Đây là những từ khó hơn của trình độ A1 và A2, có kèm phiên âm và nghĩa tiếng Việt. Những từ quá quen như cat, book, red anh không ghi vào đây. Bấm vào nút 🔊 để nghe phát âm nhé.</p>
+    <div id="vocab-list"></div>
+  </section>
+
+  <section class="patch" id="theory" style="--tint:var(--violet-soft)">
+    <div class="patch-head"><span class="patch-icon">📖</span><h2>Ngữ pháp: đọc kỹ trước khi làm bài</h2></div>
+    <p class="patch-tip">Dâu đọc từng thẻ một, chú ý các ô vàng (mẹo nhớ) và các ô đỏ (lỗi hay gặp) nhé. Mỗi thẻ có ví dụ kèm nghĩa tiếng Việt, đọc xong làm bài sẽ thấy dễ hơn nhiều đó.</p>
+
+    <details class="th" open>
+      <summary>1. Muốn làm gì: want to + động từ nguyên thể 🎀</summary>
+      <div class="thb">
+        <h4>Dùng để làm gì?</h4>
+        <p>Khi muốn nói ai đó <b>muốn làm một việc gì</b>, Dâu dùng <span class="en">want to</span>. Từ <span class="en">want</span> nghĩa là "muốn", còn <span class="en">to</span> là chiếc cầu nối sang hành động mà người đó muốn làm.</p>
+        <div class="exbox"><span class="en">I want to put on my warm coat.</span> <span class="vi">(Em muốn mặc chiếc áo khoác ấm.)</span><br><span class="en">He wants to become a pilot.</span> <span class="vi">(Anh ấy muốn trở thành phi công.)</span></div>
+
+        <h4>Ghép câu theo 3 bước</h4>
+        <ul>
+          <li><b>Bước 1:</b> tìm chủ ngữ (ai muốn?).</li>
+          <li><b>Bước 2:</b> chọn <span class="en">want</span> hay <span class="en">wants</span> theo chủ ngữ.</li>
+          <li><b>Bước 3:</b> thêm <span class="en">to</span> rồi đến động từ nguyên thể (V1), tức là động từ giữ nguyên, không thêm s, ed hay ing.</li>
+        </ul>
+
+        <h4>Công thức</h4>
+        <div class="tw"><table>
+          <tr><th>Loại câu</th><th>I / You / We / They / danh từ số nhiều</th><th>He / She / It / danh từ số ít</th></tr>
+          <tr><td>Khẳng định (+)</td><td>We <b>want to</b> go out.</td><td>She <b>wants to</b> go out.</td></tr>
+          <tr><td>Phủ định (-)</td><td>We <b>don't want to</b> go out.</td><td>She <b>doesn't want to</b> go out.</td></tr>
+          <tr><td>Nghi vấn (?)</td><td><b>Do</b> you <b>want to</b> have a picnic?</td><td><b>Does</b> he <b>want to</b> sit by the fire?</td></tr>
+          <tr><td>Trả lời ngắn</td><td>Yes, I do. / No, I don't.</td><td>Yes, he does. / No, he doesn't.</td></tr>
+        </table></div>
+
+        <h4>Làm sao biết chủ ngữ là he / she / it hay they?</h4>
+        <div class="tw"><table>
+          <tr><th>Chủ ngữ trong câu</th><th>Đổi thành</th><th>Dùng</th></tr>
+          <tr><td>Emma, my sister, the baby</td><td>she</td><td><b>wants</b> to</td></tr>
+          <tr><td>Harry, your brother, my uncle</td><td>he</td><td><b>wants</b> to</td></tr>
+          <tr><td>My parents, the children, Tom and Nick</td><td>they</td><td><b>want</b> to</td></tr>
+          <tr><td>My brother and I</td><td>we</td><td><b>want</b> to</td></tr>
+        </table></div>
+
+        <div class="tipbox">Mẹo nhớ: trong một câu, đuôi <b>s</b> chỉ xuất hiện đúng một lần, ở <b>wants</b> hoặc ở <b>does / doesn't</b>. Đã có does hoặc doesn't thì want trở về dạng thường, không có s nữa.</div>
+        <p class="bad">✗ She doesn't wants to play. &nbsp; ✗ Does he wants to become an engineer? &nbsp; ✗ I want going out. &nbsp; ✗ He want to swim.</p>
+        <p class="good">✓ She doesn't want to play. &nbsp; ✓ Does he want to become an engineer? &nbsp; ✓ I want to go out. &nbsp; ✓ He wants to swim.</p>
+
+        <h4>Những điều cần nhớ thêm</h4>
+        <ul>
+          <li>Sau <span class="en">want to</span> luôn là động từ nguyên thể, không bao giờ là V-ing. Nói <span class="en">I want to swim</span>, không nói <span class="en">I want swimming</span>.</li>
+          <li>Động từ đi sau giữ nguyên cả cụm: <span class="en">I want to put on my gloves.</span> <span class="en">She wants to sit by the fire.</span></li>
+          <li>Muốn trở thành nghề gì: <span class="en">want to be</span> hoặc <span class="en">want to become</span> + nghề. Ví dụ: <span class="en">George wants to become an astronaut.</span></li>
+          <li>Hỏi lý do và trả lời: <span class="en">Why are you putting on your coat? Because I want to build a snowman.</span></li>
+        </ul>
+        <div class="exbox"><span class="en">Nick would like to learn physics.</span> = <span class="en">Nick wants to learn physics.</span><br><span class="vi">(would like to và want to có cùng nghĩa "muốn", would like to nghe lịch sự hơn một chút.)</span></div>
+      </div>
+    </details>
+
+    <details class="th" open>
+      <summary>2. Thì Hiện tại tiếp diễn (Present Continuous) 🦇</summary>
+      <div class="thb">
+        <h4>Khi nào dùng?</h4>
+        <p>Hãy tưởng tượng Dâu bấm nút tạm dừng một bộ phim. Ai đang làm gì trong khung hình đó? Đó chính là thì hiện tại tiếp diễn.</p>
+        <ul>
+          <li><b>Việc đang xảy ra ngay lúc nói:</b> <span class="en">Look! The police officer is helping a student.</span> <span class="vi">(Nhìn kìa! Chú cảnh sát đang giúp một bạn học sinh.)</span></li>
+          <li><b>Hai việc cùng xảy ra một lúc</b>, thường nối bằng <span class="en">while</span> (trong khi): <span class="en">My mother is cooking dinner while my father is reading a book.</span> <span class="vi">(Mẹ đang nấu bữa tối trong khi bố đang đọc sách.)</span></li>
+        </ul>
+
+        <h4>Công thức</h4>
+        <div class="tw"><table>
+          <tr><th>Loại câu</th><th>Công thức</th><th>Ví dụ</th></tr>
+          <tr><td>Khẳng định (+)</td><td>S + am / is / are + V-ing</td><td>The singer is singing a song.</td></tr>
+          <tr><td>Phủ định (-)</td><td>S + am / is / are + <b>not</b> + V-ing</td><td>They aren't studying now.</td></tr>
+          <tr><td>Nghi vấn (?)</td><td>(Từ để hỏi) + am / is / are + S + V-ing?</td><td>What are you doing?</td></tr>
+          <tr><td>Trả lời ngắn</td><td>Yes, S + am / is / are. No, S + am not / isn't / aren't.</td><td>Yes, I am. No, she isn't.</td></tr>
+        </table></div>
+
+        <h4>Chọn am / is / are</h4>
+        <div class="tw"><table>
+          <tr><th>Chủ ngữ</th><th>To be</th><th>Ví dụ</th></tr>
+          <tr><td>I</td><td><b>am</b> (I'm)</td><td>I am writing a letter.</td></tr>
+          <tr><td>He / She / It / danh từ số ít</td><td><b>is</b></td><td>The baby sister is sleeping.</td></tr>
+          <tr><td>You / We / They / danh từ số nhiều</td><td><b>are</b></td><td>The birds are singing.</td></tr>
+        </table></div>
+        <p class="bad">✗ The birds is singing. &nbsp; ✗ She singing now. &nbsp; ✗ He is wash his car. &nbsp; ✗ What you are doing?</p>
+        <p class="good">✓ The birds are singing. &nbsp; ✓ She is singing now. &nbsp; ✓ He is washing his car. &nbsp; ✓ What are you doing?</p>
+        <div class="tipbox">Không được thiếu to be. Có <b>V-ing</b> thì phải có <b>am / is / are</b> đứng trước, giống như áo khoác luôn đi với khuy áo vậy.</div>
+
+        <h4>Cách thêm -ing</h4>
+        <div class="tw"><table>
+          <tr><th>Quy tắc</th><th>Ví dụ</th></tr>
+          <tr><td>Hầu hết động từ: thêm <b>ing</b></td><td>sing / singing, help / helping, read / reading, sleep / sleeping, wash / washing, cook / cooking, do / doing</td></tr>
+          <tr><td>Tận cùng một chữ <b>e</b>: bỏ e rồi thêm <b>ing</b></td><td>skate / skating, ride / riding, make / making, write / writing</td></tr>
+          <tr><td>Một âm tiết, kết thúc bằng 1 nguyên âm + 1 phụ âm: gấp đôi phụ âm cuối</td><td>sit / sitting, swim / swimming, put / putting, run / running</td></tr>
+          <tr><td>Tận cùng <b>y</b>: giữ nguyên y</td><td>study / studying, play / playing</td></tr>
+        </table></div>
+
+        <h4>Dấu hiệu nhận biết</h4>
+        <div class="chips2"><span>now (bây giờ)</span><span>right now (ngay lúc này)</span><span>at the moment (lúc này)</span><span>at present (hiện nay)</span><span>Look! (nhìn kìa)</span><span>Listen! (nghe kìa)</span><span>Be quiet! (trật tự)</span><span>while (trong khi)</span></div>
+        <div class="tipbox">Những câu mệnh lệnh như <b>Look! Listen! Be quiet! Watch out!</b> đứng ở đầu câu là lời báo "việc này đang xảy ra ngay trước mắt, ngay bên tai". Thấy chúng thì nghĩ ngay đến am / is / are + V-ing.</div>
+
+        <h4>Một số động từ không dùng với -ing</h4>
+        <p>Các động từ chỉ cảm xúc hoặc suy nghĩ như <span class="en">want, like, love, know</span> thường không chia ở thì tiếp diễn. Nói <span class="en">I want a sledge</span>, không nói <span class="en">I am wanting a sledge</span>.</p>
+      </div>
+    </details>
+
+    <details class="th" open>
+      <summary>3. Thì Hiện tại hoàn thành (Present Perfect) 👻</summary>
+      <div class="thb">
+        <h4>Ý nghĩa: cây cầu nối quá khứ với hiện tại</h4>
+        <p>Thì này nói về một việc đã bắt đầu hoặc đã xảy ra trong quá khứ nhưng vẫn còn liên quan đến bây giờ. Có bốn cách dùng chính:</p>
+        <ul>
+          <li><b>Kéo dài từ quá khứ đến hiện tại:</b> <span class="en">We have lived here for five years.</span> <span class="vi">(Nhà em sống ở đây được 5 năm rồi, bây giờ vẫn sống.)</span></li>
+          <li><b>Vừa mới xảy ra, kết quả còn thấy ngay:</b> <span class="en">I have just cleaned the floor.</span> <span class="vi">(Em vừa lau sàn xong.)</span></li>
+          <li><b>Trải nghiệm trong đời (đã từng hay chưa bao giờ):</b> <span class="en">She has never seen a real bat.</span> <span class="vi">(Cô ấy chưa bao giờ nhìn thấy dơi thật.)</span></li>
+          <li><b>Số lần, nhất là lần đầu tiên:</b> <span class="en">This is the first time he has visited this cave.</span> <span class="vi">(Đây là lần đầu anh ấy đến thăm hang này.)</span></li>
+        </ul>
+
+        <h4>Công thức</h4>
+        <div class="tw"><table>
+          <tr><th>Loại câu</th><th>I / You / We / They / số nhiều</th><th>He / She / It / số ít</th></tr>
+          <tr><td>Khẳng định (+)</td><td>S + <b>have</b> + V3 (viết tắt 've)</td><td>S + <b>has</b> + V3 (viết tắt 's)</td></tr>
+          <tr><td>Phủ định (-)</td><td>S + <b>haven't</b> + V3</td><td>S + <b>hasn't</b> + V3</td></tr>
+          <tr><td>Nghi vấn (?)</td><td><b>Have</b> + S + V3?</td><td><b>Has</b> + S + V3?</td></tr>
+          <tr><td>Trả lời ngắn</td><td>Yes, I have. / No, I haven't.</td><td>Yes, she has. / No, she hasn't.</td></tr>
+        </table></div>
+        <div class="tipbox">Quy tắc vàng: đã có <b>have / has</b> thì động từ chính phải ở cột 3 (V3). Không dùng cột 1 hoặc cột 2 ở đây.</div>
+        <p class="bad">✗ My uncle has work here since 2015. &nbsp; ✗ She has went home. &nbsp; ✗ Has she ate lunch? &nbsp; ✗ They has lived here.</p>
+        <p class="good">✓ My uncle has worked here since 2015. &nbsp; ✓ She has gone home. &nbsp; ✓ Has she eaten lunch? &nbsp; ✓ They have lived here.</p>
+
+        <h4>Tìm V3 như thế nào?</h4>
+        <p><b>Động từ có quy tắc:</b> V3 giống V-ed (thêm ed như thì quá khứ đơn). Ví dụ: live / lived, work / worked, visit / visited, finish / finished, fix / fixed, study / studied, stop / stopped, travel / travelled (hoặc traveled).</p>
+        <p><b>Động từ bất quy tắc:</b> phải học thuộc từng hàng.</p>
+        <div class="tw"><table>
+          <tr><th>V1</th><th>V2</th><th>V3</th><th>Nghĩa</th><th>V1</th><th>V2</th><th>V3</th><th>Nghĩa</th></tr>
+          <tr><td>be</td><td>was / were</td><td><b>been</b></td><td>thì, là</td><td>know</td><td>knew</td><td><b>known</b></td><td>biết</td></tr>
+          <tr><td>break</td><td>broke</td><td><b>broken</b></td><td>làm vỡ</td><td>make</td><td>made</td><td><b>made</b></td><td>làm, tạo ra</td></tr>
+          <tr><td>do</td><td>did</td><td><b>done</b></td><td>làm</td><td>read</td><td>read</td><td><b>read</b></td><td>đọc</td></tr>
+          <tr><td>eat</td><td>ate</td><td><b>eaten</b></td><td>ăn</td><td>ride</td><td>rode</td><td><b>ridden</b></td><td>cưỡi, đi (xe)</td></tr>
+          <tr><td>fly</td><td>flew</td><td><b>flown</b></td><td>bay</td><td>see</td><td>saw</td><td><b>seen</b></td><td>nhìn thấy</td></tr>
+          <tr><td>go</td><td>went</td><td><b>gone</b></td><td>đi</td><td>sing</td><td>sang</td><td><b>sung</b></td><td>hát</td></tr>
+          <tr><td>have</td><td>had</td><td><b>had</b></td><td>có, ăn</td><td>swim</td><td>swam</td><td><b>swum</b></td><td>bơi</td></tr>
+          <tr><td>win</td><td>won</td><td><b>won</b></td><td>thắng</td><td>write</td><td>wrote</td><td><b>written</b></td><td>viết</td></tr>
+        </table></div>
+        <div class="tipbox">Mẹo nhớ: nhiều động từ có V3 kết thúc bằng <b>-en</b> hoặc <b>-n</b> (eaten, ridden, seen, written, broken, known, flown). Còn <span class="en">made, had, won, read</span> thì V2 và V3 giống hệt nhau. Chú ý: <span class="en">read</span> viết giống nhau cả ba cột nhưng V2, V3 đọc là /red/.</div>
+
+        <h4>Dấu hiệu nhận biết và vị trí của chúng</h4>
+        <div class="tw"><table>
+          <tr><th>Dấu hiệu</th><th>Nghĩa</th><th>Đứng ở đâu</th><th>Ví dụ</th></tr>
+          <tr><td><b>for</b> + khoảng thời gian</td><td>được bao lâu</td><td>cuối câu</td><td>We have lived here <b>for five years</b>.</td></tr>
+          <tr><td><b>since</b> + mốc thời gian</td><td>từ khi nào</td><td>cuối câu</td><td>He has worked here <b>since 2015</b>.</td></tr>
+          <tr><td><b>just</b></td><td>vừa mới</td><td>giữa have/has và V3</td><td>She has <b>just</b> finished.</td></tr>
+          <tr><td><b>already</b></td><td>đã ... rồi</td><td>giữa have/has và V3</td><td>We have <b>already</b> eaten.</td></tr>
+          <tr><td><b>yet</b></td><td>chưa, đã ... chưa</td><td>cuối câu phủ định hoặc nghi vấn</td><td>He hasn't fixed it <b>yet</b>.</td></tr>
+          <tr><td><b>ever</b></td><td>đã từng</td><td>giữa chủ ngữ và V3, trong câu hỏi</td><td>Have you <b>ever</b> ridden a camel?</td></tr>
+          <tr><td><b>never</b></td><td>chưa bao giờ</td><td>giữa have/has và V3</td><td>They have <b>never</b> travelled by plane.</td></tr>
+          <tr><td>so far, recently, lately</td><td>cho đến giờ, gần đây</td><td>cuối câu</td><td>I have read three books <b>so far</b>.</td></tr>
+        </table></div>
+
+        <h4>for hay since? Hỏi nhanh hai câu</h4>
+        <ul>
+          <li>Dâu nói được con số kèm đơn vị (2 weeks, 5 years, a long time) thì dùng <b>for</b>.</li>
+          <li>Dâu nói được một cột mốc cụ thể (2018, Monday, last week, yesterday) thì dùng <b>since</b>.</li>
+        </ul>
+        <div class="exbox"><span class="en">for</span> three months, for two weeks, for a long time &nbsp;|&nbsp; <span class="en">since</span> 2020, since Monday, since last winter</div>
+        <p class="bad">✗ since four months &nbsp; ✗ for 2010</p>
+        <p class="good">✓ for four months &nbsp; ✓ since 2010</p>
+
+        <h4>Các mẫu câu hay gặp</h4>
+        <ul>
+          <li><b>Hỏi trải nghiệm:</b> <span class="en">Have you ever + V3 ...?</span> Trả lời: <span class="en">Yes, I have. I rode a horse last year.</span> hoặc <span class="en">No, I haven't.</span></li>
+          <li><b>Lần đầu tiên:</b> <span class="en">This is the first time + S + have / has + V3.</span> Ví dụ: <span class="en">This is the first time our class has visited a science museum.</span></li>
+          <li><b>Hỏi bao lâu:</b> <span class="en">How long + have / has + S + V3?</span> Ví dụ: <span class="en">How long have your parents known our neighbor?</span></li>
+        </ul>
+
+        <h4>Phân biệt với quá khứ đơn</h4>
+        <div class="tw"><table>
+          <tr><th>Quá khứ đơn</th><th>Hiện tại hoàn thành</th></tr>
+          <tr><td>Việc đã kết thúc, có mốc thời gian đã qua: <span class="en">I lived in Hue in 2019.</span> (bây giờ không sống ở đó nữa)</td><td>Việc còn kéo dài hoặc còn liên quan đến bây giờ: <span class="en">I have lived in Hue since 2019.</span> (bây giờ vẫn sống ở đó)</td></tr>
+          <tr><td>Dấu hiệu: yesterday, last night, two days ago, in 2019</td><td>Dấu hiệu: for, since, just, already, yet, ever, never</td></tr>
+        </table></div>
+      </div>
+    </details>
+
+    <details class="th" open>
+      <summary>4. Chọn thì nhanh: nhìn dấu hiệu, đoán công thức 🔮</summary>
+      <div class="thb">
+        <div class="tw"><table>
+          <tr><th>Dấu hiệu trong câu</th><th>Thì cần dùng</th><th>Công thức</th></tr>
+          <tr><td>Look! Listen! Be quiet! now, right now, at the moment, at present, while</td><td>Hiện tại tiếp diễn</td><td>am / is / are + V-ing</td></tr>
+          <tr><td>for, since, just, already, yet, ever, never, so far, the first time</td><td>Hiện tại hoàn thành</td><td>have / has + V3</td></tr>
+          <tr><td>Câu nói về mong muốn: want, would like</td><td>want to + V1</td><td>want / wants to + V1</td></tr>
+        </table></div>
+        <div class="tipbox">Cách làm bài chắc ăn: gạch chân dấu hiệu thời gian trước, rồi đọc chủ ngữ để chọn am/is/are hoặc have/has hoặc want/wants, cuối cùng mới viết động từ.</div>
+        <div class="exbox"><span class="en">Be quiet! The baby is sleeping.</span> (dấu hiệu Be quiet!)<br><span class="en">She has lived here since 2018.</span> (dấu hiệu since)<br><span class="en">He doesn't want to play today.</span> (có want)</div>
+      </div>
+    </details>
+
+    <details class="th" open>
+      <summary>5. Cụm từ và giới từ hay gặp trong bài 🧩</summary>
+      <div class="thb">
+        <div class="tw"><table>
+          <tr><th>Cụm từ</th><th>Nghĩa</th><th>Ví dụ</th></tr>
+          <tr><td>put on / take off</td><td>mặc vào / cởi ra</td><td>Put on your scarf. Take off your wet boots.</td></tr>
+          <tr><td>wait for</td><td>chờ ai, chờ cái gì</td><td>We wait for the school bus.</td></tr>
+          <tr><td>sit by the fire</td><td>ngồi cạnh lò sưởi</td><td>We sit by the fire after skiing.</td></tr>
+          <tr><td>have a picnic</td><td>đi dã ngoại</td><td>We have a picnic by the lake.</td></tr>
+          <tr><td>made of + chất liệu</td><td>được làm bằng</td><td>This sledge is made of wood. The sweater is made of wool.</td></tr>
+          <tr><td>at the moment</td><td>vào lúc này</td><td>It is snowing at the moment.</td></tr>
+          <tr><td>in the sky / on the stage</td><td>trên bầu trời / trên sân khấu</td><td>Dark clouds are moving in the sky.</td></tr>
+          <tr><td>the top of the hill</td><td>đỉnh đồi</td><td>They race to the top of the hill.</td></tr>
+          <tr><td>look at / listen to</td><td>nhìn vào / nghe</td><td>Look at the snowman! Listen to the song.</td></tr>
+        </table></div>
+        <div class="tipbox">Chú ý: đi với <b>wait</b> là giới từ <b>for</b>, đi với <b>made</b> là <b>of</b>, đi với <b>sit</b> cạnh lò sưởi là <b>by</b>. Mỗi cụm là một "cặp đôi", học thuộc cả cặp nhé.</div>
+        <p class="bad">✗ wait the bus &nbsp; ✗ at the sky</p>
+        <p class="good">✓ wait for the bus &nbsp; ✓ made of wood &nbsp; ✓ in the sky</p>
+      </div>
+    </details>
+  </section>
+
+<div id="parts"></div>
+
+  <section class="finale" id="finale">
+    <span class="basket" aria-hidden="true">🎃</span>
+    <h2>Dâu giỏi quá luôn! 🎉</h2>
+    <p>Dâu đã hái đủ 100 quả bí ngô rồi. Giờ Dâu xem lại một lượt rồi bấm "Nộp bài" khi đã sẵn sàng nhé.</p>
+  </section>
+
+  <div class="summary-box" id="summaryBox"></div>
+
+  <div class="reset-wrap">
+    <p class="submit-note">Khi Dâu bấm "Nộp bài", kết quả và các câu làm sai sẽ được gửi tự động cho anh. Nộp bài xong Dâu vẫn có thể bấm "Làm lại từ đầu" để luyện lại toàn bộ.</p>
+    <button class="btn-submit" id="submitBtn" onclick="doSubmit()">Nộp bài</button>
+    <div id="emailStatus"></div>
+    <button class="btn-reset" onclick="resetProgress()">Làm lại từ đầu</button>
+  </div>
+
+</main>
+
+<script>
+/* ================= DATA ================= */
+const OFF = [1,16,31,46,66,71,81,91];
+const SIZES = [15,15,15,20,5,10,10,10];
+const TOTAL = 100;
+const PARTS = [
+  {name:"Nồi thuốc phù thủy", icon:"🧪", tint:"var(--violet-soft)", tip:"Đọc mô tả rồi tìm từ đúng trong bảng từ bên dưới. Bảng có 18 từ nhưng chỉ dùng 15 từ, còn 3 từ thừa nên đừng để bị lừa nha. Bấm vào ô trống trước, rồi bấm từ trong bảng để điền nhanh, hoặc tự gõ cũng được."},
+  {name:"Gia đình ma cà rồng", icon:"🧛", tint:"var(--pump-soft)", tip:"Đọc câu rồi viết đúng từ vào chỗ trống. Chữ cái trong ngoặc là chữ cái đầu tiên của từ cần điền. Chú ý chính tả thật kỹ nhé."},
+  {name:"Ngọn nến chọn từ", icon:"🕯️", tint:"var(--witch-soft)", tip:"Chọn đáp án đúng cho từng câu. Mỗi câu chỉ có 2 lần thử thôi, nên đọc cả câu thật kỹ trước khi bấm nhé."},
+  {name:"Chiếc chổi chia thì", icon:"🧹", tint:"var(--gold-soft)", tip:"Điền dạng đúng của động từ vào chỗ trống. Nhìn kỹ dấu hiệu (Look!, now, since, yet, already...) để chọn đúng thì: hiện tại tiếp diễn, hiện tại hoàn thành hoặc want to + V1. Câu nào có hai chỗ trống thì điền cả hai."},
+  {name:"Tin nhắn dưới trăng hồng", icon:"💬", tint:"var(--violet-soft)", tip:"George đang nói chuyện với Betty về kỳ nghỉ đông. Chọn câu trả lời đúng của Betty từ A đến G. Có 2 câu trả lời thừa nha."},
+  {name:"Đêm tuyết hồng", icon:"⛄", tint:"var(--pump-soft)", tip:"Đọc câu chuyện rồi chọn từ trong bảng điền vào chỗ trống từ 71 đến 80. Bảng có 12 từ nhưng chỉ dùng 10 từ. Điền xong bấm dấu ✓ cạnh ô để kiểm tra nhé."},
+  {name:"Lá thư của Oliver", icon:"✉️", tint:"var(--witch-soft)", tip:"Đọc lá thư và điền MỖI chỗ trống một từ thôi nhé. Điền xong bấm dấu ✓ cạnh ô để kiểm tra."},
+  {name:"Giải mã bùa chú", icon:"🔮", tint:"var(--gold-soft)", tip:"Hoàn thành câu, sắp xếp các từ thành câu đúng hoặc tìm và sửa lỗi sai. Gõ cả cụm cho đầy đủ nhé. Ở câu sắp xếp, bấm vào từng từ để ghép câu cũng được."}
+];
+
+const VOC = [
+ ["Nghề nghiệp",[["architect","/ˈɑːkɪtekt/","kiến trúc sư"],["dentist","/ˈdentɪst/","nha sĩ"],["pilot","/ˈpaɪlət/","phi công"],["astronaut","/ˈæstrənɔːt/","phi hành gia"],["tailor","/ˈteɪlə/","thợ may"],["housewife","/ˈhaʊswaɪf/","người nội trợ"],["pharmacist","/ˈfɑːməsɪst/","dược sĩ"],["firefighter","/ˈfaɪəfaɪtə/","lính cứu hỏa"],["postman","/ˈpəʊstmən/","người đưa thư"],["engineer","/ˌendʒɪˈnɪə/","kỹ sư"],["scientist","/ˈsaɪəntɪst/","nhà khoa học"],["technician","/tekˈnɪʃn/","kỹ thuật viên"],["shopkeeper","/ˈʃɒpkiːpə/","chủ cửa hàng"],["baby-sitter","/ˈbeɪbi ˌsɪtə/","người trông trẻ"]]],
+ ["Gia đình và bạn bè",[["grandmother","/ˈɡrænmʌðə/","bà"],["husband","/ˈhʌzbənd/","chồng"],["uncle","/ˈʌŋkl/","chú, bác, cậu"],["aunt","/ɑːnt/","cô, dì"],["nephew","/ˈnefjuː/","cháu trai"],["niece","/niːs/","cháu gái"],["cousin","/ˈkʌzn/","anh chị em họ"],["pen-friend","/ˈpen frend/","bạn qua thư"],["neighbor","/ˈneɪbə/","hàng xóm"]]],
+ ["Mùa, thời tiết và thời gian",[["autumn","/ˈɔːtəm/","mùa thu"],["freezing","/ˈfriːzɪŋ/","lạnh cóng"],["storm","/stɔːm/","cơn bão"],["snowy","/ˈsnəʊi/","có tuyết"],["rainy","/ˈreɪni/","có mưa"],["midday","/ˌmɪdˈdeɪ/","giữa trưa"],["midnight","/ˈmɪdnaɪt/","nửa đêm"],["heavily","/ˈhevɪli/","nặng hạt, rất nhiều"]]],
+ ["Mùa đông và đồ vật",[["sledge","/sledʒ/","xe trượt tuyết"],["snowball","/ˈsnəʊbɔːl/","quả cầu tuyết"],["snowman","/ˈsnəʊmæn/","người tuyết"],["scarf","/skɑːf/","khăn quàng cổ"],["gloves","/ɡlʌvz/","găng tay"],["boots","/buːts/","đôi ủng"],["belt","/belt/","thắt lưng"],["umbrella","/ʌmˈbrelə/","cái ô, cái dù"],["kite","/kaɪt/","con diều"],["telescope","/ˈtelɪskəʊp/","kính thiên văn"],["magazine","/ˌmæɡəˈziːn/","tạp chí"]]],
+ ["Chất liệu",[["wool","/wʊl/","len"],["glass","/ɡlɑːs/","thủy tinh"],["plastic","/ˈplæstɪk/","nhựa"],["metal","/ˈmetl/","kim loại"]]],
+ ["Trường học và địa điểm",[["timetable","/ˈtaɪmteɪbl/","thời khóa biểu"],["assembly","/əˈsembli/","buổi chào cờ, họp toàn trường"],["physics","/ˈfɪzɪks/","môn vật lí"],["technology","/tekˈnɒlədʒi/","môn công nghệ"],["museum","/mjuˈziːəm/","viện bảo tàng"],["competition","/ˌkɒmpəˈtɪʃn/","cuộc thi"],["clinic","/ˈklɪnɪk/","phòng khám"],["cave","/keɪv/","hang động"],["desert","/ˈdezət/","sa mạc"],["swimming pool","/ˈswɪmɪŋ puːl/","hồ bơi"],["camel","/ˈkæml/","con lạc đà"]]],
+ ["Động từ và cụm động từ",[["skate","/skeɪt/","trượt băng"],["shout","/ʃaʊt/","la hét"],["guess","/ɡes/","đoán"],["suggest","/səˈdʒest/","gợi ý, đề nghị"],["break","/breɪk/","làm vỡ, làm gãy"],["become","/bɪˈkʌm/","trở thành"],["put on","/ˌpʊt ˈɒn/","mặc vào"],["take off","/ˌteɪk ˈɒf/","cởi ra"],["wait for","/ˈweɪt fɔː/","chờ đợi"],["have a picnic","/hæv ə ˈpɪknɪk/","đi dã ngoại"]]],
+ ["Tính từ và trạng từ",[["excited","/ɪkˈsaɪtɪd/","hào hứng"],["thrilled","/θrɪld/","rất phấn khích"],["difficult","/ˈdɪfɪkəlt/","khó"],["tidy","/ˈtaɪdi/","gọn gàng"],["steep","/stiːp/","dốc"],["gentle","/ˈdʒentl/","nhẹ nhàng"],["peacefully","/ˈpiːsfəli/","yên bình"],["sweetly","/ˈswiːtli/","ngọt ngào, du dương"]]]
+];
+
+const BANK1 = ["an architect","a dentist","a pilot","an astronaut","a tailor","an uncle","a niece","a nephew","a housewife","a timetable","a scarf","a sledge","physics","a cave","an umbrella","a postman","a firefighter","autumn"];
+const BANK6 = ["woke up","snowy","arrived","sledge","fire","scarf","difficult","shouted","excited","snowman","umbrella","sunny"];
+
+/* Part 1: [description, answer] */
+const P1 = [
+ ["This person designs and draws plans for new houses, schools, and tall buildings.","an architect"],
+ ["You open your mouth and let this person look at your teeth when you have a toothache.","a dentist"],
+ ["This person flies airplanes or helicopters through the sky to take people to other countries.","a pilot"],
+ ["This brave person travels into outer space in a rocket to study the stars and planets.","an astronaut"],
+ ["This person cuts cloth and sews it to make jackets, trousers, and dresses.","a tailor"],
+ ["This man is the brother of your mother or your father.","an uncle"],
+ ["This girl or woman is the daughter of your brother or your sister.","a niece"],
+ ["This boy or young man is the son of your brother or your sister.","a nephew"],
+ ["This woman stays at home to look after her house, clean rooms, and care for her family.","a housewife"],
+ ["This chart on the classroom wall shows the days and times when your school lessons happen.","a timetable"],
+ ["You wear this long piece of wool around your neck to stay warm when it is cold and windy.","a scarf"],
+ ["Children sit on this vehicle made of wood or plastic to slide down snowy hills in winter.","a sledge"],
+ ["In this school subject, you study heat, light, sound, energy, and how moving things work.","physics"],
+ ["This is a large, dark hole inside a mountain or under the ground where bats often sleep.","a cave"],
+ ["You open and hold this over your head so that rain falling from the sky does not get you wet.","an umbrella"]
+];
+/* Part 2: [sentence with ___, [accepted answers]] */
+const P2 = [
+ ["Your mother's mother or your father's mother is your ___ (g...).",["grandmother","grandma"]],
+ ["A man and a woman who are married are called a ___ (h...) and a wife.",["husband"]],
+ ["In southern Vietnam, there are two main periods each year: the dry season and the ___ (r...) season.",["rainy"]],
+ ["A person who works in a restaurant kitchen making delicious meals is a ___ (c...).",["cook"]],
+ ["A person who does experiments in a laboratory to test new scientific ideas is a ___ (s...).",["scientist"]],
+ ["When it is freezing outside in winter, you should put on warm ___ (c...) like a coat and boots.",["clothes"]],
+ ["Every Monday morning at school, all pupils gather in the main yard for the school ___ (a...) to sing the national anthem.",["assembly"]],
+ ["The exact time at twelve o'clock in the middle of the day is called ___ (m...).",["midday"]],
+ ["The exact time at twelve o'clock in the middle of the dark night is called ___ (m...).",["midnight"]],
+ ["A friend who lives in another town or country and communicates with you by letters or emails is a ___-friend (p...).",["pen"]],
+ ["Strong tables and chairs in the dining room are usually made of ___ (w...) from forest trees.",["wood"]],
+ ["Soft winter sweaters, hats, and mittens are usually made of ___ (w...) from sheep.",["wool"]],
+ ["After a cold winter finishes, ___ (s...) arrives with warm sunshine and colorful new flowers.",["spring"]],
+ ["A person who works in a shop, helping customers find things and selling goods, is a ___ (s...).",["shopkeeper"]],
+ ["A person whose job is to take care of small babies or young children while their parents are away is a ___-sitter (b...).",["baby"]]
+];
+/* Part 3: [sentence, options, index of correct option] */
+const P3 = [
+ [`"It's freezing outside! Don't forget to ___ your thick woolen jacket."`,["take off","put on","break"],1],
+ ["The children rolled a huge ball of white snow to make the ___ of their snowman.",["body","wall","timetable"],0],
+ ["After walking through the cold wind, the two brothers came inside to sit ___ the warm fire.",["by","on","into"],0],
+ ["On sunny weekends, my parents always suggest that we ___ a picnic by the lake.",["make","have","arrive"],1],
+ ["The teacher told the students to stop ___ because everyone in the library was reading quietly.",["guessing","shouting","skating"],1],
+ ["Drinking cups and window panes are usually made of ___, which will break if dropped.",["glass","wood","wool"],0],
+ ["Look up! Dark gray ___ are moving across the sky; a storm is coming.",["kites","clouds","sledges"],1],
+ ["Oliver was very ___ when his uncle bought him a fast, shiny new sledge.",["difficult","excited","snowy"],1],
+ ["We are standing outside the station entrance to ___ the school bus.",["wait for","put on","take off"],0],
+ ["The children carried their sledge all the way up to the ___ of the hill and raced down.",["top","midnight","belt"],0],
+ ["In January, many children love to ___ across the thick ice of the frozen lake.",["skate","guess","break"],0],
+ [`"Can you ___ how many people are sitting inside that red boat?" asked Emma.`,["arrive","guess","close"],1],
+ ["On hot summer afternoons, my cousins enjoy swimming in the big ___ near their house.",["cave","swimming pool","fire"],1],
+ ["Please be gentle with that plastic toy, or you might ___ it into two pieces.",["break","arrive","suggest"],0],
+ ["The autumn breeze is blowing strongly, which is great weather for flying our paper ___.",["boots","kite","scarf"],1]
+];
+/* Part 4: [sentence with ___ per blank, [[accepted for blank 1],[blank 2]...]] */
+const P4 = [
+ ["Listen! The singer ___ (sing) a lovely new song on the stage right now.",[["is singing"]]],
+ ["Look! The police officer ___ (help) a lost pupil outside our school gate.",[["is helping"]]],
+ ["Be quiet! The baby sister ___ (sleep) peacefully in her bedroom at the moment.",[["is sleeping"]]],
+ ["While my father is cooking dinner in the kitchen, my mother ___ (read) a magazine.",[["is reading"]]],
+ ["What ___ you ___ (do) in the garden right now, Lucas?",[["are"],["doing"]]],
+ ["The students ___ (not / study) technology at the moment; they are having an art lesson.",[["are not studying","aren't studying"]]],
+ ["Emma is very tired, so she ___ (not / want to / play) football in the snow today.",[["doesn't want to play","does not want to play"]]],
+ ["___ your brother ___ (want to / become) an engineer when he grows up?",[["does"],["want to become"]]],
+ ["I feel quite cold, so I ___ (want to / put on) my warm woolen gloves.",[["want to put on"]]],
+ ["___ you ever ___ (ride) a camel across the desert sand?",[["have"],["ridden"]]],
+ ["My uncle is a dedicated doctor. He ___ (work) in this hospital since 2015.",[["has worked"]]],
+ ["We are not hungry at all because we ___ (already / eat) a big lunch.",[["have already eaten","have eaten already"]]],
+ ["Look at Sarah's tidy desk! She ___ (just / finish) her English homework.",[["has just finished"]]],
+ ["Nick and his family ___ (live) in this snowy town for five years.",[["have lived"]]],
+ ["This is the first time our class ___ (visit) this famous science museum.",[["has visited"]]],
+ ["The technician ___ (not / fix) the broken computer yet.",[["has not fixed","hasn't fixed"]]],
+ ["My grandparents ___ (never / travel) by airplane before.",[["have never traveled","have never travelled"]]],
+ ["How long ___ your parents ___ (know) our friendly neighbor?",[["have"],["known"]]],
+ ["Where is your father? He ___ (wash) his car in front of the house at present.",[["is washing"]]],
+ ["Helen is thrilled because she ___ (just / win) first prize in the music competition.",[["has just won"]]]
+];
+/* Part 5 */
+const ANS5 = {
+ A:"Yes, I have. I went to the snowy mountains with my uncle two years ago.",
+ B:"No, my aunt bought that scarf for me last winter.",
+ C:"Because I want to build a huge snowman with Harry in the garden!",
+ D:"We are leaving at half past ten tomorrow morning.",
+ E:"She is working at the hospital with the other doctors.",
+ F:"Yes, he is putting on his warm jacket and boots right now.",
+ G:"It is made of strong plastic and red metal."
+};
+const P5 = [
+ ["Hi Betty! Why are you putting on your heavy coat and gloves?","C"],
+ ["That sounds exciting! Have you ever skated on real ice before?","A"],
+ ["Look at that cool sledge over there! Is it made of wood?","G"],
+ ["Is your brother Harry coming out to play in the snow with us?","F"],
+ ["Great! Where is your mother working this afternoon?","E"]
+];
+/* Part 6 and 7 passages: {n} marks the blank with that question number */
+const TXT6 = `Last Saturday was a very cold and {71} day in December. When Richard {72} in the morning, he looked out of his bedroom window. Everything in the garden was covered in thick white snow! Richard felt very {73} because he loved winter holidays.
+He ran downstairs, ate some hot soup, and quickly put on his warm wool {74} and gloves. His older brother, Oliver, was waiting for him outside with their new {75}. "Let's pull it to the top of the hill and have a race!" Oliver {76} happily.
+Walking up the steep hill through the deep snow was quite {77}, but the boys didn't stop. At midday, they {78} back at their house, feeling hungry and tired. Before going inside, the two boys rolled three big snowballs to build a funny {79} with a carrot for its nose.
+In the evening, they took off their wet boots and sat by the warm {80} in the living room, drinking hot milk with their grandparents.`;
+const A6 = [["snowy"],["woke up"],["excited"],["scarf"],["sledge"],["shouted"],["difficult"],["arrived"],["snowman"],["fire"]];
+const TXT7 = `Dear Lucas,
+I am writing this letter while sitting at my desk. It is snowing heavily outside at {81} moment, so all the children are staying indoors.
+Let me tell you about my family! My mother is a nurse at the local clinic, and my father {82} an engineer. My older brother George wants {83} become an astronaut because he loves space. He enjoys looking at the bright stars {84} the sky through his telescope.
+{85} you ever looked at the moon through a telescope? It looks amazing! We have lived in this town {86} five years, but my uncle has lived here {87} 2010.
+Right now, while my mother is cooking soup in the kitchen, I {88} writing to you. My mom is calling me for dinner, so I shouldn't keep her waiting {89} me. Before I go downstairs, I will put on my favorite sweater; it is made {90} soft wool and keeps me very warm.
+Write back to me soon!
+<b>Oliver</b>`;
+const A7 = [["the"],["is"],["to"],["in"],["have"],["for"],["since"],["am"],["for"],["of"]];
+/* Part 8 */
+const P8F = [
+ ["Nick would like to learn physics with his uncle. (Use \"wants to\")<br>Nick ___ physics with his uncle.",["wants to learn"]],
+ ["We started living in this house three years ago. (Use \"for\")<br>We have lived in this house ___.",["for three years","for 3 years"]],
+ ["My sister began working as a dentist in 2020. (Use \"since\")<br>My sister has worked as a dentist ___.",["since 2020"]],
+ ["Jack doesn't wish to go out in the rainy season. (Use \"want to\")<br>Jack doesn't ___ in the rainy season.",["want to go out"]]
+];
+const P8O = [
+ [["at","is","snowman","The","looking","the","baby","funny"],["The baby is looking at the funny snowman.","The funny baby is looking at the snowman."]],
+ [["ever","Have","on","ridden","a","you","sledge","snowy","a","hill"],["Have you ever ridden a sledge on a snowy hill?"]],
+ [["warm","by","wants","after","sit","the","He","to","fire","skiing"],["He wants to sit by the warm fire after skiing."]]
+];
+const P8X = [
+ [["Listen!","The","birds","is","singing","sweetly","in","the","garden","trees."],[3],["are"],"are"],
+ [["My","pen-friend","has","lived","in","London","since","four","months."],[6],["for"],"for"],
+ [["Do","your","cousin","want","to","visit","the","science","museum","with","us?"],[0],["Does"],"Does"]
+];
+
+
+/* ================= ITEM MODEL ================= */
+const ITEMS = [], M = {};
+function add(part,i,o){ o.part=part; o.id=part+"-"+(i+1); o.n=OFF[part-1]+i; ITEMS.push(o); M[o.id]=o; return o; }
+const plain = s => s.replace(/<br>/g," ");
+P1.forEach((r,i)=>add(1,i,{kind:"fill", t:r[0]+" ___", acc:[[r[1]]], art:true, hint:true, prompt:r[0], show:r[1]}));
+P2.forEach((r,i)=>add(2,i,{kind:"fill", t:r[0], acc:[r[1]], hint:true, prompt:r[0], show:r[1][0]}));
+P3.forEach((r,i)=>add(3,i,{kind:"mc", t:r[0], o:r[1], ans:r[2], prompt:r[0], show:r[1][r[2]]}));
+P4.forEach((r,i)=>add(4,i,{kind:"fill", t:r[0], acc:r[1], prompt:r[0], show:r[1].map(x=>x[0]).join(" / ")}));
+P5.forEach((r,i)=>add(5,i,{kind:"chat", m:r[0], ans:r[1], prompt:r[0], show:r[1]+". "+ANS5[r[1]]}));
+function ctx(txt,n){
+  const plainTxt = txt.replace(/<[^>]+>/g,"");
+  const k = plainTxt.indexOf("{"+n+"}");
+  const before = plainTxt.slice(0,k).replace(/\{\d+\}/g,"___").split(/\s+/).slice(-6).join(" ");
+  const after = plainTxt.slice(k+String("{"+n+"}").length).replace(/\{\d+\}/g,"___").split(/\s+/).slice(0,3).join(" ");
+  return before+" ___ "+after;
+}
+A6.forEach((a,i)=>add(6,i,{kind:"blank", acc:[a], prompt:ctx(TXT6,71+i), show:a[0]}));
+A7.forEach((a,i)=>add(7,i,{kind:"blank", acc:[a], prompt:ctx(TXT7,81+i), show:a.join(" / ")}));
+P8F.forEach((r,i)=>add(8,i,{kind:"fill", t:r[0], acc:[r[1]], long:true, prompt:plain(r[0]), show:r[1][0]}));
+P8O.forEach((r,i)=>add(8,4+i,{kind:"order", words:r[0], acc:[r[1]], prompt:r[0].join(" / "), show:r[1][0]}));
+P8X.forEach((r,i)=>add(8,7+i,{kind:"fix", tokens:r[0], wrong:r[1], acc:[r[2]], prompt:r[0].join(" "), show:r[3]}));
+
+/* ================= HELPERS ================= */
+const $ = id => document.getElementById(id);
+const OK_MSG = ["Chính xác luôn, Dâu giỏi quá!","Đúng rồi đó, tuyệt vời!","Giỏi ghê, làm tốt lắm!","Chuẩn không cần chỉnh!","Xuất sắc, tiếp tục nào!"];
+const WARN_MSG = ["Chưa đúng rồi, đọc lại câu rồi thử lần nữa nhé.","Chưa đúng đâu, Dâu thử lại xem nào.","Chưa được rồi, bình tĩnh đọc lại nhé."];
+const CLOSE_MSG = ["Gần đúng rồi, đếm lại từng chữ cái xem có thiếu hay thừa chữ nào không nhé.","Sát nút luôn, xem lại chính tả một chút xíu nữa nào.","Chỉ sai một tí thôi, nhìn kỹ lại từng chữ cái nhé."];
+function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
+function N(s){ return (s||"").replace(/[\u2018\u2019]/g,"'").trim().toLowerCase().replace(/[-\u2013\u2014]/g," ").replace(/[.,!?;:"]/g,"").replace(/\s+/g," ").trim(); }
+function noArt(s){ return N(s).replace(/^(a|an) /,""); }
+function same(v,x,art){ return art ? noArt(v)===noArt(x) : N(v)===N(x); }
+function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function shakeEl(el){ if(!el) return; el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake"); }
+function lev(a,b){
+  const m=a.length, n=b.length, dp=[];
+  for(let i=0;i<=m;i++){ dp.push(new Array(n+1).fill(0)); dp[i][0]=i; }
+  for(let j=0;j<=n;j++) dp[0][j]=j;
+  for(let i=1;i<=m;i++) for(let j=1;j<=n;j++) dp[i][j] = a[i-1]===b[j-1] ? dp[i-1][j-1] : 1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);
+  return dp[m][n];
+}
+
+/* ---------- sound ---------- */
+let audioCtx=null;
+function playTone(freq,dur){
+  try{
+    audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
+    const osc=audioCtx.createOscillator(), gain=audioCtx.createGain();
+    osc.type="sine"; osc.frequency.value=freq;
+    gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.16, audioCtx.currentTime+0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime+dur);
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.start(); osc.stop(audioCtx.currentTime+dur);
+  }catch(e){}
+}
+function playDing(){ playTone(880,0.16); setTimeout(()=>playTone(1180,0.2),90); }
+function speak(w){
+  try{
+    const u = new SpeechSynthesisUtterance(w);
+    u.lang = "en-GB"; u.rate = 0.85;
+    window.speechSynthesis.cancel(); window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+/* ---------- confetti ---------- */
+const EMO = ["🎃","🦇","👻","🍬","✨"];
+function spawnConfetti(anchorEl){
+  try{
+    const rect = anchorEl.getBoundingClientRect();
+    for(let i=0;i<10;i++){
+      const s=document.createElement("span");
+      s.className="confetti-piece";
+      s.textContent=EMO[Math.floor(Math.random()*EMO.length)];
+      s.style.setProperty("--dx", ((Math.random()-0.5)*170)+"px");
+      s.style.setProperty("--dy", (-(60+Math.random()*100))+"px");
+      s.style.left=(rect.left+rect.width/2)+"px";
+      s.style.top=(rect.top+rect.height/2)+"px";
+      document.body.appendChild(s);
+      setTimeout(()=>s.remove(), 900);
+    }
+  }catch(e){}
+}
+
+/* ---------- progress ---------- */
+const STORE_KEY = "dau_flyers_halloween_pink_v1";
+let seeds = new Set();
+function loadProgress(){ try{ const raw=localStorage.getItem(STORE_KEY); if(raw){ JSON.parse(raw).forEach(id=>seeds.add(id)); } }catch(e){} }
+function saveProgress(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify([...seeds])); }catch(e){} }
+function popSeedCounter(){ const el=$("seedCounter"); el.classList.remove("pop"); void el.offsetWidth; el.classList.add("pop"); }
+let finaleCelebrated = false;
+
+/* ---------- exam state ---------- */
+const TEACHER_EMAIL = "ddangminh1905@gmail.com";
+let attempts = {}, attemptCounts = {}, hintLevel = {}, activeIn = null;
+function registerAttempt(id){ attemptCounts[id]=(attemptCounts[id]||0)+1; return attemptCounts[id]; }
+function isLocked(id){ return (attemptCounts[id]||0)>=2; }
+function freeze(unit){ unit.querySelectorAll("input, button").forEach(el=>{ el.disabled=true; }); }
+function lockItem(unit){ if(!unit) return; unit.classList.add("locked"); freeze(unit); }
+let examSubmitted = false, tabSwitchCount = 0, startTime = Date.now(), timerInterval = null;
+document.addEventListener("visibilitychange", ()=>{ if(document.hidden && !examSubmitted) tabSwitchCount++; });
+function startTimer(){ if(timerInterval) clearInterval(timerInterval); timerInterval=setInterval(updateTimerDisplay,1000); updateTimerDisplay(); }
+function stopTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function elapsedStr(){ const s=Math.max(0,Math.floor((Date.now()-startTime)/1000)); return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0"); }
+function updateTimerDisplay(){ const el=$("timerBadge"); if(el) el.textContent="⏱️ "+elapsedStr(); }
+
+function updateCounter(){
+  $("seedCount").textContent = seeds.size;
+  for(let p=1;p<=8;p++){
+    const count = [...seeds].filter(id=>id.split("-")[0]==String(p)).length;
+    const cnt=$("navcount-"+p); if(cnt) cnt.textContent = count+"/"+SIZES[p-1];
+    const pill=$("navpill-"+p);
+    if(pill){
+      const was = pill.classList.contains("done");
+      pill.classList.toggle("done", count===SIZES[p-1]);
+      if(count===SIZES[p-1] && !was) celebratePartDone(pill);
+    }
+  }
+  const fill=$("progressFill"), label=$("progressLabel");
+  if(fill){ fill.style.width=Math.round((seeds.size/TOTAL)*100)+"%"; fill.setAttribute("aria-valuenow", seeds.size); }
+  if(label) label.textContent = seeds.size+"/"+TOTAL+" quả bí ngô đã hái";
+  const done = seeds.size>=TOTAL;
+  const finale=$("finale"); if(finale) finale.classList.toggle("show", done);
+  if(done && !finaleCelebrated){ finaleCelebrated=true; bigCelebration(); }
+}
+function celebratePartDone(pill){
+  pill.classList.remove("bounce"); void pill.offsetWidth; pill.classList.add("bounce");
+  popSeedCounter(); spawnConfetti(pill); playDing(); setTimeout(playDing,180);
+}
+function bigCelebration(){
+  const emojis=["🎃","🦇","👻","🍬","✨","🎉"];
+  for(let i=0;i<36;i++){
+    setTimeout(()=>{
+      const s=document.createElement("span");
+      s.className="confetti-piece";
+      s.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+      s.style.left=(Math.random()*window.innerWidth)+"px";
+      s.style.top="-30px";
+      s.style.fontSize=(16+Math.random()*16)+"px";
+      s.style.setProperty("--dx", ((Math.random()-0.5)*140)+"px");
+      s.style.setProperty("--dy", (window.innerHeight+80)+"px");
+      s.style.animationDuration=(1.3+Math.random()*0.9)+"s";
+      document.body.appendChild(s);
+      setTimeout(()=>s.remove(), 2400);
+    }, i*35);
+  }
+  playDing(); setTimeout(playDing,260); setTimeout(playDing,540);
+}
+function awardSeed(id, anchorEl){
+  if(seeds.has(id)) return;
+  seeds.add(id); saveProgress(); updateCounter(); popSeedCounter();
+  if(anchorEl) spawnConfetti(anchorEl);
+  playDing();
+}
+
+/* ================= RENDER ================= */
+function buildVocab(){
+  $("vocab-list").innerHTML = VOC.map(g=>'<div class="vgroup"><h3>'+g[0]+'</h3><div class="vgrid">'+
+    g[1].map(w=>'<div class="vcard"><div style="flex:1"><div class="vw">'+w[0]+'</div><div class="vp">'+w[1]+'</div><div class="vm">'+w[2]+'</div></div><button type="button" class="vsay" data-act="say" data-w="'+w[0]+'" aria-label="Nghe phát âm từ '+w[0]+'">🔊</button></div>').join("")+
+    '</div></div>').join("");
+}
+function buildSections(){
+  $("pathNav").insertAdjacentHTML("beforeend", PARTS.map((p,i)=>'<a href="#sec'+(i+1)+'" id="navpill-'+(i+1)+'">'+p.icon+' Phần '+(i+1)+' <span class="cnt" id="navcount-'+(i+1)+'">0/'+SIZES[i]+'</span></a>').join(""));
+  $("parts").innerHTML = PARTS.map((p,i)=>'<section class="patch" id="sec'+(i+1)+'" style="--tint:'+p.tint+'"><div class="patch-head"><span class="patch-icon">'+p.icon+'</span><h2>Phần '+(i+1)+': '+p.name+'</h2></div><p class="patch-tip">'+p.tip+'</p><div id="list-'+(i+1)+'"></div></section>').join("");
+}
+function cardHtml(it){
+  const badge = '<span class="q-badge">'+it.n+'</span>';
+  const fb = '<div class="q-feedback" id="fb-'+it.id+'"></div>';
+  const open = '<div class="q-card" data-id="'+it.id+'">';
+  if(it.kind==="fill"){
+    let k=0;
+    const body = it.t.replace(/___/g, ()=>'<input type="text" class="q-input inl'+(it.long?' long':'')+'" data-k="'+(k++)+'" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Chỗ trống">');
+    return open+'<div class="q-head">'+badge+'<p class="q-sentence">'+body+'</p></div><div class="q-controls"><button type="button" class="btn btn-check" data-act="chk">Kiểm tra</button>'+(it.hint?'<button type="button" class="btn btn-hint" data-act="hint">Gợi ý</button>':'')+'</div>'+fb+'</div>';
+  }
+  if(it.kind==="mc"){
+    const chips = it.o.map((o,i)=>'<button type="button" class="chip chip-choice" data-act="pick" data-v="'+i+'">'+"ABC"[i]+'. '+o+'</button>').join("");
+    return open+'<div class="q-head">'+badge+'<p class="q-sentence">'+it.t+'</p></div><div class="chip-row">'+chips+'</div>'+fb+'</div>';
+  }
+  if(it.kind==="chat"){
+    const chips = "ABCDEFG".split("").map(l=>'<button type="button" class="chip chip-choice" data-act="pick" data-v="'+l+'" aria-label="Đáp án '+l+'">'+l+'</button>').join("");
+    return open+'<div class="q-head">'+badge+'<div style="flex:1"><div class="bub m"><b>George:</b> '+it.m+'</div><div class="bub s"><b>Betty:</b> <span class="blankline" id="sp-'+it.id+'">&nbsp;</span></div></div></div><div class="chip-row">'+chips+'</div>'+fb+'</div>';
+  }
+  if(it.kind==="order"){
+    const tiles = shuffle(it.words).map(w=>'<button type="button" class="token tile" data-act="tile">'+w+'</button>').join("");
+    return open+'<div class="q-head">'+badge+'<p class="q-sentence">Sắp xếp các từ thành câu đúng (nhớ viết hoa chữ đầu và chấm câu ở cuối):</p></div><div class="token-row">'+tiles+'</div><div class="q-controls"><input type="text" class="q-input wide" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Viết cả câu vào đây..."><button type="button" class="btn btn-check" data-act="chk">Kiểm tra</button><button type="button" class="btn btn-clear" data-act="clr">Xóa</button></div>'+fb+'</div>';
+  }
+  if(it.kind==="fix"){
+    const toks = it.tokens.map((t,i)=>'<button type="button" class="token" data-act="tok" data-i="'+i+'">'+t+'</button>').join("");
+    return open+'<div class="q-head">'+badge+'<p class="q-sentence">Tìm và sửa MỘT lỗi sai trong câu. Bấm vào từ sai trước nhé:</p></div><div class="token-row">'+toks+'</div><div class="step2" style="display:none;"><span class="step-label">Viết lại chỗ sai cho đúng</span><input type="text" class="q-input wide" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Sửa lại thành..."><button type="button" class="btn btn-check" data-act="chk">Kiểm tra</button></div>'+fb+'</div>';
+  }
+  return "";
+}
+function passageHtml(p, txt, bank){
+  const paras = txt.split("\n").map(s=>'<p>'+s.replace(/\{(\d+)\}/g,(m,n)=>{
+    const it = M[p+"-"+(n-OFF[p-1]+1)];
+    return '<span class="pg" data-id="'+it.id+'"><b class="pgn">'+n+'</b><input type="text" class="q-input pgi" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Chỗ trống '+n+'"><button type="button" class="mini" data-act="chk" aria-label="Kiểm tra chỗ trống '+n+'">✓</button></span>';
+  })+'</p>').join("");
+  const bankHtml = bank ? '<div class="wordbank">'+bank.map(w=>'<button type="button" class="wb-chip" data-act="bank" data-part="'+p+'" data-w="'+w+'">'+w+'</button>').join("")+'</div>' : "";
+  return bankHtml+'<div class="passage">'+paras+'<div class="q-feedback" id="pgfb-'+p+'"></div></div>';
+}
+function renderPart(p){
+  const list = $("list-"+p);
+  const items = ITEMS.filter(x=>x.part===p);
+  let html = "";
+  if(p===1) html += '<div class="wordbank">'+BANK1.map(w=>'<button type="button" class="wb-chip" data-act="bank" data-part="1" data-w="'+w+'">'+w+'</button>').join("")+'</div>';
+  if(p===5) html += '<div class="wordbank anslist">'+Object.keys(ANS5).map(l=>'<p><b>'+l+'.</b> '+ANS5[l]+'</p>').join("")+'</div>';
+  if(p===6) html += passageHtml(6,TXT6,BANK6);
+  else if(p===7) html += passageHtml(7,TXT7,null);
+  else if(p===8){
+    html += '<h3 style="margin:4px 0 10px;font-size:17px;">Hoàn thành câu thứ hai</h3>'+items.filter(x=>x.kind==="fill").map(cardHtml).join("");
+    html += '<h3 style="margin:18px 0 10px;font-size:17px;">Sắp xếp từ thành câu</h3>'+items.filter(x=>x.kind==="order").map(cardHtml).join("");
+    html += '<h3 style="margin:18px 0 10px;font-size:17px;">Tìm và sửa lỗi sai</h3>'+items.filter(x=>x.kind==="fix").map(cardHtml).join("");
+  } else html += items.map(cardHtml).join("");
+  list.innerHTML = html;
+  items.filter(x=>seeds.has(x.id)).forEach(restore);
+}
+function restore(it){
+  const unit = document.querySelector('[data-id="'+it.id+'"]');
+  if(!unit) return;
+  unit.classList.add("solved");
+  if(it.kind==="fill"||it.kind==="blank") unit.querySelectorAll("input.q-input").forEach((inp,i)=>{ inp.value = it.acc[i][0]; });
+  if(it.kind==="order") unit.querySelector("input.q-input").value = it.acc[0][0];
+  if(it.kind==="fix"){
+    unit.querySelector(".step2").style.display="flex";
+    unit.querySelector("input.q-input").value = it.acc[0][0];
+    const t = unit.querySelectorAll(".token")[it.wrong[0]]; if(t) t.classList.add("token-selected");
+  }
+  if(it.kind==="mc"){ const c = unit.querySelector('[data-v="'+it.ans+'"]'); if(c) c.classList.add("chip-correct"); }
+  if(it.kind==="chat"){ const c = unit.querySelector('[data-v="'+it.ans+'"]'); if(c) c.classList.add("chip-correct"); $("sp-"+it.id).textContent = ANS5[it.ans]; }
+  freeze(unit);
+}
+function renderAll(){
+  for(let p=1;p<=8;p++) renderPart(p);
+  updateCounter();
+}
+
+/* ================= INTERACTION ================= */
+function fbOf(it){ return it.kind==="blank" ? $("pgfb-"+it.part) : $("fb-"+it.id); }
+function outcome(it, ok, unit, anchor, near){
+  const fb = fbOf(it), pre = it.kind==="blank" ? "Chỗ trống "+it.n+": " : "";
+  if(ok){
+    fb.innerHTML = '<span class="fb-ok">'+pre+pick(OK_MSG)+'</span>';
+    unit.classList.add("solved");
+    freeze(unit);
+    awardSeed(it.id, anchor||unit);
+    return;
+  }
+  const n = registerAttempt(it.id);
+  if(n>=2){
+    fb.innerHTML = '<span class="fb-warn">'+pre+'Dâu đã thử 2 lần cho câu này rồi, hết lượt. Làm lại bài để thử lại nhé.</span>';
+    lockItem(unit);
+  } else {
+    let msg;
+    if(near){
+      msg = it.part===4 ? "Gần đúng rồi, xem lại am/is/are, have/has, V-ing, V3 hoặc want to nhé." : (it.part===8 ? "Gần đúng rồi, đọc lại từng từ và vị trí các từ nhé." : pick(CLOSE_MSG));
+    } else msg = pick(WARN_MSG);
+    fb.innerHTML = '<span class="'+(near?'fb-close':'fb-warn')+'">'+pre+msg+' (còn 1 lượt thử)</span>';
+    shakeEl(unit);
+  }
+}
+function doCheck(id, btn){
+  const it = M[id], unit = btn.closest("[data-id]");
+  if(!it || seeds.has(id) || isLocked(id)) return;
+  const vals = [...unit.querySelectorAll("input.q-input")].map(i=>i.value);
+  if(vals.some(v=>!N(v))){
+    fbOf(it).innerHTML = '<span class="fb-warn">'+(it.kind==="blank"?"Chỗ trống "+it.n+": ":"")+(vals.length>1?"Dâu điền đủ các chỗ trống rồi hãy kiểm tra nhé.":"Dâu gõ câu trả lời vào ô đã nhé.")+'</span>';
+    return;
+  }
+  attempts[id] = vals.map(v=>N(v)).join(" / ");
+  const ok = it.acc.every((a,i)=>a.some(x=>same(vals[i],x,it.art)));
+  const near = !ok && it.acc.length===1 && lev(N(vals[0]), N(it.acc[0][0]))<=2;
+  outcome(it, ok, unit, btn, near);
+}
+function hint(id){
+  const it = M[id];
+  if(seeds.has(id) || isLocked(id)) return;
+  hintLevel[id] = (hintLevel[id]||0)+1;
+  const core = noArt(it.acc[0][0]).replace(/[^a-z]/g,"");
+  const fb = $("fb-"+id);
+  if(hintLevel[id]===1) fb.innerHTML = '<span class="fb-hint">Gợi ý: từ đúng có '+core.length+' chữ cái, bắt đầu bằng chữ "'+core[0].toUpperCase()+'".</span>';
+  else if(hintLevel[id]===2) fb.innerHTML = '<span class="fb-hint">Gợi ý thêm: chữ cuối cùng là "'+core[core.length-1].toUpperCase()+'". Đọc lại cả câu để đoán nghĩa của từ nhé.</span>';
+  else fb.innerHTML = '<span class="fb-hint">Dâu đã xem gợi ý rồi, giờ hãy tự đánh vần và gõ thử vào ô nhé.</span>';
+}
+function pickChoice(id, btn){
+  const it = M[id], unit = btn.closest("[data-id]");
+  if(seeds.has(id) || isLocked(id)) return;
+  const v = it.kind==="mc" ? +btn.dataset.v : btn.dataset.v;
+  attempts[id] = it.kind==="mc" ? it.o[v] : v+". "+ANS5[v];
+  if(v===it.ans){
+    btn.classList.add("chip-correct");
+    if(it.kind==="chat") $("sp-"+id).textContent = ANS5[v];
+    outcome(it, true, unit, btn);
+  } else {
+    btn.classList.add("chip-wrong-flash");
+    outcome(it, false, unit, btn, false);
+    btn.disabled = true;
+  }
+}
+function tile(unit, b){
+  const inp = unit.querySelector("input.q-input");
+  inp.value = (inp.value ? inp.value+" " : "") + b.textContent;
+  b.disabled = true; b.classList.add("used");
+}
+function clearTiles(unit){
+  unit.querySelector("input.q-input").value = "";
+  unit.querySelectorAll(".tile").forEach(t=>{ t.disabled=false; t.classList.remove("used"); });
+}
+function pickToken(id, b){
+  const it = M[id], unit = b.closest("[data-id]");
+  if(seeds.has(id) || isLocked(id)) return;
+  if(it.wrong.includes(+b.dataset.i)){
+    unit.querySelectorAll(".token").forEach(t=>t.classList.remove("token-selected"));
+    b.classList.add("token-selected");
+    const s = unit.querySelector(".step2"); s.style.display="flex"; s.querySelector("input").focus();
+  } else {
+    b.classList.add("token-select-wrong");
+    setTimeout(()=>b.classList.remove("token-select-wrong"),400);
+  }
+}
+function bankInsert(b){
+  const part = b.dataset.part;
+  if(!activeIn || activeIn.disabled) return;
+  const host = activeIn.closest("[data-id]");
+  if(!host || host.dataset.id.split("-")[0]!==part) return;
+  activeIn.value = b.dataset.w; activeIn.focus();
+}
+document.addEventListener("click", e=>{
+  const b = e.target.closest("[data-act]");
+  if(!b || b.disabled) return;
+  const a = b.dataset.act, unit = b.closest("[data-id]"), id = unit ? unit.dataset.id : null;
+  if(a==="chk") doCheck(id,b);
+  else if(a==="hint") hint(id);
+  else if(a==="pick") pickChoice(id,b);
+  else if(a==="tile") tile(unit,b);
+  else if(a==="clr") clearTiles(unit);
+  else if(a==="tok") pickToken(id,b);
+  else if(a==="bank") bankInsert(b);
+  else if(a==="say") speak(b.dataset.w);
+});
+document.addEventListener("focusin", e=>{ if(e.target.matches && e.target.matches("input.q-input")) activeIn = e.target; });
+document.addEventListener("keydown", e=>{
+  if(e.key!=="Enter" || !e.target.matches || !e.target.matches("input.q-input")) return;
+  const unit = e.target.closest("[data-id]"); if(!unit) return;
+  const inputs = [...unit.querySelectorAll("input.q-input")], i = inputs.indexOf(e.target);
+  if(i < inputs.length-1){ inputs[i+1].focus(); return; }
+  const btn = unit.querySelector('[data-act="chk"]'); if(btn) doCheck(unit.dataset.id, btn);
+});
+
+/* ================= SUBMIT / EMAIL REPORT ================= */
+function lockAll(){
+  document.querySelectorAll(".q-input, .btn-check, .btn-hint, .btn-clear, .chip, .token, .wb-chip, .mini").forEach(el=>{ el.disabled=true; });
+  const sb = $("submitBtn"); if(sb) sb.disabled = true;
+}
+function showSummary(){
+  const box = $("summaryBox");
+  box.innerHTML =
+    '<h3>Đã nộp bài</h3>'+
+    '<p><strong>Điểm: '+seeds.size+' / '+TOTAL+' câu đúng</strong></p>'+
+    '<p>Thời gian làm bài: '+elapsedStr()+'</p>'+
+    '<p>Số lần rời khỏi trang khi làm bài: '+tabSwitchCount+'</p>'+
+    '<p style="margin-top:10px;">Kết quả đang được gửi cho anh, Dâu không cần làm gì thêm. Nếu muốn luyện lại, bấm "Làm lại từ đầu" bên dưới nhé.</p>';
+  box.classList.add("show");
+  if(box.scrollIntoView) box.scrollIntoView({behavior:"smooth", block:"center"});
+}
+function sendResultEmail(){
+  const status = $("emailStatus");
+  const lines = [];
+  lines.push("Học sinh: Dâu");
+  lines.push("Bài: Lâu đài bí ngô hồng ôn luyện Flyers (Halloween)");
+  lines.push("Điểm: "+seeds.size+" / "+TOTAL);
+  lines.push("Thời gian làm bài: "+elapsedStr());
+  lines.push("Số lần rời khỏi trang khi làm bài: "+tabSwitchCount);
+  lines.push("");
+  PARTS.forEach((p,i)=>{
+    const items = ITEMS.filter(x=>x.part===i+1);
+    const wrong = items.filter(x=>!seeds.has(x.id));
+    lines.push("=== Phần "+(i+1)+": "+p.name+" ("+(items.length-wrong.length)+"/"+items.length+" đúng) ===");
+    if(wrong.length===0) lines.push("Tất cả các câu đều đúng.");
+    else wrong.forEach(x=>{
+      lines.push("Câu "+x.n+": "+x.prompt);
+      lines.push("  Dâu làm: "+(attempts[x.id] ? attempts[x.id] : "(chưa làm)"));
+      lines.push("  Đáp án đúng: "+x.show);
+    });
+    lines.push("");
+  });
+  if(status){ status.style.color="#ffc2e0"; status.textContent="Đang gửi kết quả cho anh..."; }
+  fetch("https://formsubmit.co/ajax/"+TEACHER_EMAIL, {
+    method:"POST",
+    headers:{ "Content-Type":"application/json", "Accept":"application/json" },
+    body: JSON.stringify({
+      _subject: "Kết quả luyện tập Flyers Halloween hồng - Dâu",
+      name: "Dâu",
+      score: seeds.size+" / "+TOTAL,
+      tab_switches: String(tabSwitchCount),
+      answers: lines.join("\n")
+    })
+  })
+  .then(res=>res.json())
+  .then(()=>{ if(status){ status.style.color="#9be37e"; status.textContent="Kết quả đã được gửi cho anh."; } })
+  .catch(()=>{ if(status){ status.style.color="#ff9cb8"; status.textContent="Gửi kết quả không thành công, anh hãy kiểm tra lại kết nối mạng."; } });
+}
+function doSubmit(){
+  if(examSubmitted) return;
+  const left = TOTAL - seeds.size;
+  if(left>0){
+    const ok = confirm("Dâu còn "+left+" câu chưa làm đúng hoặc chưa làm. Vẫn muốn nộp bài luôn chứ?");
+    if(!ok) return;
+  }
+  examSubmitted = true;
+  stopTimer(); lockAll(); showSummary(); sendResultEmail();
+}
+
+/* ================= INIT / RESET ================= */
+function resetProgress(){
+  const ok = confirm("Làm lại từ đầu nhé? Toàn bộ kết quả đã làm sẽ mất hết đó.");
+  if(!ok) return;
+  seeds.clear(); saveProgress();
+  finaleCelebrated = false; hintLevel = {}; attempts = {}; attemptCounts = {}; activeIn = null;
+  examSubmitted = false; tabSwitchCount = 0; startTime = Date.now(); startTimer();
+  const box = $("summaryBox"); if(box){ box.classList.remove("show"); box.innerHTML=""; }
+  const status = $("emailStatus"); if(status) status.textContent = "";
+  const sb = $("submitBtn"); if(sb) sb.disabled = false;
+  renderAll();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+buildVocab();
+buildSections();
+loadProgress();
+finaleCelebrated = seeds.size >= TOTAL;
+renderAll();
+startTimer();
+</script>
+</body>
+</html>
