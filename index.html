@@ -1035,19 +1035,24 @@ function sendResultEmail(){
     lines.push("");
   });
   if(status){ status.style.color="#ffc2e0"; status.textContent="Đang gửi kết quả cho anh..."; }
-  fetch("https://formsubmit.co/ajax/"+TEACHER_EMAIL, {
+  fetch("https://api.web3forms.com/submit", {
     method:"POST",
     headers:{ "Content-Type":"application/json", "Accept":"application/json" },
     body: JSON.stringify({
-      _subject: "Kết quả luyện tập Flyers Halloween hồng - Dâu",
+      access_key: "40b0286c-9460-47dc-a776-4372621760f3",
+      subject: "Kết quả luyện tập Flyers Halloween hồng - Dâu",
+      from_name: "Dâu",
       name: "Dâu",
       score: seeds.size+" / "+TOTAL,
       tab_switches: String(tabSwitchCount),
-      answers: lines.join("\n")
+      message: lines.join("\n")
     })
   })
   .then(res=>res.json())
-  .then(()=>{ if(status){ status.style.color="#9be37e"; status.textContent="Kết quả đã được gửi cho anh."; } })
+  .then(data=>{
+    if(!data || !data.success) throw new Error("send failed");
+    if(status){ status.style.color="#9be37e"; status.textContent="Kết quả đã được gửi cho anh."; }
+  })
   .catch(()=>{ if(status){ status.style.color="#ff9cb8"; status.textContent="Gửi kết quả không thành công, anh hãy kiểm tra lại kết nối mạng."; } });
 }
 function doSubmit(){
